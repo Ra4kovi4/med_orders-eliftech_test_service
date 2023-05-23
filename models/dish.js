@@ -25,14 +25,11 @@ const dishSchema = new Schema(
 			required: true,
 			min: 0.01,
 		},
-		shopId: {
-			type: Number,
-			required: true,
-		},
+		shopId: { type: Number, required: true },
 	},
 	{ versionKey: false, timestamps: true }
 );
-
+dishSchema.post("save", handleMongooseError);
 const Dish = model("Dish", dishSchema);
 
 module.exports = Dish;

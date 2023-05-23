@@ -30,15 +30,24 @@ const orderSchema = new Schema(
 			required: [true, "db: Phone is required"],
 		},
 		cart: {
-			type: [
+			list: [
 				{
 					dishId: {
 						type: Schema.Types.ObjectId,
 						ref: "dish",
 						required: true,
 					},
+					quantity: {
+						type: Number,
+						required: true,
+						default: 1,
+					},
 				},
 			],
+			totalPrice: {
+				type: Number,
+				required: true,
+			},
 		},
 		owner: {
 			type: Schema.Types.ObjectId,
@@ -53,12 +62,27 @@ orderSchema.post("save", handleMongooseError);
 
 const Order = model("Order", orderSchema);
 
+const cartItemSchema = Joi.object({
+	dishId: Joi.string().required(),
+	quantity: Joi.number().integer().min(1).default(1),
+});
+
+const cartSchema = Joi.object({
+	items: Joi.array().items(cartItemSchema).required(),
+	totalPrice: Joi.number().required(),
+});
+
+const orderCartSchema = Joi.object({
+	cart: cartSchema.required(),
+	owner: Joi.string().required(),
+});
+
 const addOrderSchema = Joi.object({
 	name: Joi.string().min(1).max(20).required(),
 	phone: Joi.string().pattern(phoneRegExp).required(),
 	email: Joi.string().pattern(emailRegexp).required(),
 	address: Joi.string().required(),
-	cart: Joi.array().required(),
+	cart: orderCartSchema.required(),
 });
 
 module.exports = {

@@ -9,7 +9,6 @@ const getCurrentUser = async (req, res) => {
 		name: 1,
 		email: 1,
 		token: 1,
-		cart: 1,
 	});
 
 	if (!currentUser) {
