@@ -1,22 +1,40 @@
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 
-const shopSchema = new Schema(
-	{
-		title: {
-			type: String,
-			required: true,
-			minlength: 2,
-		},
-
-		shopId: {
-			type: Number,
-			required: true,
-		},
+const dishSchema = new Schema({
+	imgUrl: {
+		type: String,
 	},
+	title: {
+		type: String,
+		required: true,
+		minlength: 2,
+	},
+	description: {
+		type: String,
+		minlength: 2,
+		maxlength: 50,
+		required: true,
+	},
+	price: {
+		type: Number,
+		required: true,
+		min: 0.01,
+	},
+});
 
-	{ versionKey: false, timestamps: true }
-);
+const shopSchema = new Schema({
+	name: {
+		type: String,
+		required: true,
+	},
+	address: {
+		type: String,
+		required: true,
+	},
+	dishes: [dishSchema],
+});
+
 shopSchema.post("save", handleMongooseError);
 
 const Shop = model("Shop", shopSchema);

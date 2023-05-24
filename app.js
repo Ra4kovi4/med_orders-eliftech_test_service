@@ -5,7 +5,7 @@ require("dotenv").config();
 const logger = require("morgan");
 const cors = require("cors");
 
-const { authRouter, dishesRouter, orderRouter } = require("./routes");
+const { authRouter, shopRouter, orderRouter } = require("./routes");
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/users", authRouter);
-app.use("/api/dishes", dishesRouter);
+app.use("/api/shop", shopRouter);
 app.use("/api/orders", orderRouter);
 
 app.use((req, res) => {

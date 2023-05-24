@@ -1,8 +1,8 @@
-const { Dish } = require("../../models");
+const { Shop } = require("../../models");
 const { HttpError } = require("../../helpers");
 
-const getAllDishes = async (req, res) => {
-	const result = await Dish.find();
+const getAllShops = async (req, res) => {
+	const result = await Shop.find();
 
 	if (!result) {
 		throw HttpError(404, "Not found");
@@ -17,4 +17,4 @@ const getAllDishes = async (req, res) => {
 	});
 };
 
-module.exports = getAllDishes;
+module.exports = getAllShops;

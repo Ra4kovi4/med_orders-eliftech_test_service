@@ -1,18 +1,28 @@
 const { HttpError } = require("../../helpers");
-const { Order, Dish } = require("../../models");
+const { Order, Shop } = require("../../models");
 
 const addOrder = async (req, res) => {
 	const { _id: userId } = req.user;
 
-	const { id } = req.params;
-	console.log(id);
-	const { name, email, phone, address, cart } = req.body;
-	const dish = await Dish.findById(id);
+	const { id: dishId } = req.params;
+
+	const { name, email, phone, address } = req.body;
+	const shop = await Shop.findOne({});
+	let oneDish;
+	for (const dish of shop.dishes) {
+		if (dish._id === dishId) {
+			oneDish = dish;
+			break;
+		}
+	}
+
+	if (!dish) {
+		throw new HttpError(404, "Dish not found");
+	}
 
 	let order = await Order.findOne({ owner: userId });
 
 	if (!order) {
-		console.log("order null if сработал");
 		order = Order.create({
 			name,
 			email,
@@ -21,7 +31,7 @@ const addOrder = async (req, res) => {
 			cart: {
 				list: [
 					{
-						dishId: dish._id,
+						dish: oneDish,
 						quantity: 1,
 					},
 				],
@@ -31,7 +41,7 @@ const addOrder = async (req, res) => {
 		});
 	} else {
 		order.cart.list.push({
-			dishId: dish._id,
+			dish: oneDish,
 			quantity: 1,
 		});
 

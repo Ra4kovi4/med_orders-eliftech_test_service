@@ -1,8 +1,8 @@
-const dishesRouter = require("./dish");
+const shopRouter = require("./shop");
 const orderRouter = require("./order");
 const authRouter = require("./auth");
 module.exports = {
-	dishesRouter,
+	shopRouter,
 	orderRouter,
 	authRouter,
 };

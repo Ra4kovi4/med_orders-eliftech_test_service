@@ -32,9 +32,27 @@ const orderSchema = new Schema(
 		cart: {
 			list: [
 				{
-					dishId: {
-						type: Schema.Types.ObjectId,
-						ref: "dish",
+					imgUrl: {
+						type: String,
+					},
+					title: {
+						type: String,
+						required: true,
+						minlength: 2,
+					},
+					description: {
+						type: String,
+						minlength: 2,
+						maxlength: 50,
+						required: true,
+					},
+					price: {
+						type: Number,
+						required: true,
+						min: 0.01,
+					},
+					id: {
+						type: String,
 						required: true,
 					},
 					quantity: {
@@ -63,8 +81,18 @@ orderSchema.post("save", handleMongooseError);
 const Order = model("Order", orderSchema);
 
 const cartItemSchema = Joi.object({
-	dishId: Joi.string().required(),
-	quantity: Joi.number().integer().min(1).default(1),
+	cart: Joi.object({
+		list: Joi.array().items(
+			Joi.object({
+				imgUrl: Joi.string(),
+				title: Joi.string().required().min(2),
+				description: Joi.string().required().min(2).max(50),
+				price: Joi.number().required().min(0.01),
+				id: Joi.string().required(),
+				quantity: Joi.number().required().default(1),
+			})
+		),
+	}),
 });
 
 const cartSchema = Joi.object({
