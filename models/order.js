@@ -17,7 +17,6 @@ const orderSchema = new Schema(
 			type: String,
 			match: emailRegexp,
 			required: [true, "db: Email is required"],
-			unique: true,
 		},
 
 		address: {
@@ -62,11 +61,6 @@ const orderSchema = new Schema(
 				required: true,
 			},
 		},
-		owner: {
-			type: String,
-
-			required: true,
-		},
 	},
 	{ versionKey: false, timestamps: true }
 );
@@ -97,7 +91,6 @@ const cartSchema = Joi.object({
 
 const orderCartSchema = Joi.object({
 	cart: cartSchema.required(),
-	owner: Joi.string().required(),
 });
 
 const addOrderSchema = Joi.object({
