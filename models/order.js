@@ -40,12 +40,7 @@ const orderSchema = new Schema(
 						required: true,
 						minlength: 2,
 					},
-					description: {
-						type: String,
-						minlength: 2,
-						maxlength: 50,
-						required: true,
-					},
+
 					price: {
 						type: Number,
 						required: true,
@@ -63,13 +58,13 @@ const orderSchema = new Schema(
 				},
 			],
 			totalPrice: {
-				type: Number,
+				type: String,
 				required: true,
 			},
 		},
 		owner: {
-			type: Schema.Types.ObjectId,
-			ref: "user",
+			type: String,
+
 			required: true,
 		},
 	},
@@ -86,7 +81,7 @@ const cartItemSchema = Joi.object({
 			Joi.object({
 				imgUrl: Joi.string(),
 				title: Joi.string().required().min(2),
-				description: Joi.string().required().min(2).max(50),
+
 				price: Joi.number().required().min(0.01),
 				id: Joi.string().required(),
 				quantity: Joi.number().required().default(1),
@@ -96,7 +91,7 @@ const cartItemSchema = Joi.object({
 });
 
 const cartSchema = Joi.object({
-	items: Joi.array().items(cartItemSchema).required(),
+	items: Joi.array().items(cartItemSchema),
 	totalPrice: Joi.number().required(),
 });
 
