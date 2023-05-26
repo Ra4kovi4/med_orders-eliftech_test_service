@@ -30,6 +30,8 @@ For development mode, use:
 
 npm run dev
 Endpoints
+Deploy https://delivery-service-rclm.onrender.com
+
 Here is a list of available endpoints:
 auth:
 GET /api/current: Fetch current user
