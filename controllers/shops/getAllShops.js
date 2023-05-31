@@ -1,13 +1,7 @@
-const { Shop } = require("../../models");
-const { HttpError } = require("../../helpers");
+const { ShopService } = require("../../services");
 
 const getAllShops = async (req, res) => {
-	const result = await Shop.find();
-
-	if (!result) {
-		throw HttpError(404, "Not found");
-	}
-
+	const result = await ShopService.allShops();
 	res.json({
 		status: "success",
 		code: 200,

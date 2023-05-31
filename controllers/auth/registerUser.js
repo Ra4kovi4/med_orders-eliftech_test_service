@@ -1,28 +1,21 @@
-const { User } = require("../../models");
-const { HttpError } = require("../../helpers");
+const { AuthService } = require("../../services");
+
 const bcrypt = require("bcryptjs");
 
 const registerUser = async (req, res) => {
 	const { name, email, password } = req.body;
-	console.log(req.body);
+
 	const normalizedEmail = email.toLowerCase();
 
-	const user = await User.findOne({ email: normalizedEmail });
-	if (user) {
-		throw HttpError(409, "Email already in use");
-	}
+	const user = await AuthService.findUserByEmail(normalizedEmail);
 
 	const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-	const newUser = await User.create({
+	const newUser = await AuthService.createUser(
 		name,
-		email: normalizedEmail,
-		password: hashPassword,
-	});
-
-	if (!newUser) {
-		throw HttpError(400, "Unable to save on database");
-	}
+		normalizedEmail,
+		hashPassword
+	);
 
 	res.status(201).json({
 		code: 201,

@@ -1,4 +1,4 @@
-const { User } = require("../../models");
+const { AuthService } = require("../../services");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { HttpError } = require("../../helpers");
@@ -9,11 +9,7 @@ const loginUser = async (req, res) => {
 
 	const normalizedEmail = email.toLowerCase();
 
-	const user = await User.findOne({ email: normalizedEmail });
-
-	if (!user) {
-		throw HttpError(401, "Email or password invalid");
-	}
+	const user = await AuthService.findUserByEmail(normalizedEmail);
 
 	const passwordCompare = await bcrypt.compare(password, user.password);
 
@@ -27,7 +23,7 @@ const loginUser = async (req, res) => {
 
 	const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
 
-	await User.findByIdAndUpdate(user._id, { token });
+	await AuthService.userUpdateById(user._id);
 
 	res.json({
 		code: 200,

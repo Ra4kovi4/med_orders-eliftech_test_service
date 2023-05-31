@@ -18,7 +18,6 @@ const orderSchema = new Schema(
 			match: emailRegexp,
 			required: [true, "db: Email is required"],
 		},
-
 		address: {
 			type: String,
 			required: true,
@@ -28,39 +27,36 @@ const orderSchema = new Schema(
 			match: phoneRegExp,
 			required: [true, "db: Phone is required"],
 		},
-		cart: {
-			list: [
-				{
-					imgUrl: {
-						type: String,
+		cart: [
+			{
+				list: [
+					{
+						imgUrl: {
+							type: String,
+						},
+						title: {
+							type: String,
+							required: true,
+							minlength: 2,
+						},
+						price: {
+							type: Number,
+							required: true,
+							min: 0.01,
+						},
+						quantity: {
+							type: Number,
+							required: true,
+							default: 1,
+						},
 					},
-					title: {
-						type: String,
-						required: true,
-						minlength: 2,
-					},
-
-					price: {
-						type: Number,
-						required: true,
-						min: 0.01,
-					},
-					id: {
-						type: String,
-						required: true,
-					},
-					quantity: {
-						type: Number,
-						required: true,
-						default: 1,
-					},
+				],
+				totalPrice: {
+					type: String,
+					required: true,
 				},
-			],
-			totalPrice: {
-				type: String,
-				required: true,
 			},
-		},
+		],
 	},
 	{ versionKey: false, timestamps: true }
 );
@@ -69,28 +65,16 @@ orderSchema.post("save", handleMongooseError);
 
 const Order = model("Order", orderSchema);
 
-const cartItemSchema = Joi.object({
-	cart: Joi.object({
-		list: Joi.array().items(
-			Joi.object({
-				imgUrl: Joi.string(),
-				title: Joi.string().required().min(2),
-
-				price: Joi.number().required().min(0.01),
-				id: Joi.string().required(),
-				quantity: Joi.number().required().default(1),
-			})
-		),
-	}),
-});
-
-const cartSchema = Joi.object({
-	items: Joi.array().items(cartItemSchema),
-	totalPrice: Joi.number().required(),
+const orderCartItemSchema = Joi.object({
+	imgUrl: Joi.string(),
+	title: Joi.string().required().min(2),
+	price: Joi.number().required().min(0.01),
+	quantity: Joi.number().required().default(1),
 });
 
 const orderCartSchema = Joi.object({
-	cart: cartSchema.required(),
+	list: Joi.array().items(orderCartItemSchema),
+	totalPrice: Joi.string().required(),
 });
 
 const addOrderSchema = Joi.object({

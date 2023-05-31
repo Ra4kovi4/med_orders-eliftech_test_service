@@ -1,13 +1,8 @@
-const { HttpError } = require("../../helpers");
-const { Shop } = require("../../models");
+const { ShopService } = require("../../services");
 
 const getShopById = async (req, res) => {
 	const { id } = req.params;
-
-	const shop = await Shop.findById(id);
-	if (!shop) {
-		throw HttpError(404, "Not Found");
-	}
+	const shop = await ShopService.shopById(id);
 	res.json({
 		code: 200,
 		status: "Success",

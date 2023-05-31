@@ -1,26 +1,27 @@
-const { HttpError } = require("../../helpers");
-const { Order } = require("../../models");
+const { OrderService } = require("../../services");
 
 const addOrder = async (req, res) => {
 	const { name, email, phone, address, dishes, totalPrice } = req.body;
+	let user = await OrderService.findOrder(email);
 
-	const order = await Order.create({
-		name,
-		email,
-		phone,
-		address,
-		cart: {
-			list: dishes,
-			totalPrice,
-		},
-	});
+	if (!user) {
+		user = await OrderService.createOrder(
+			name,
+			email,
+			phone,
+			address,
+			dishes,
+			totalPrice
+		);
+	} else {
+		user.cart.push({ list: [...dishes], totalPrice });
+	}
+	await user.save();
 
 	res.json({
 		code: 200,
 		status: "Success",
-		data: {
-			order,
-		},
+		data: user,
 	});
 };
 

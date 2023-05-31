@@ -1,18 +1,13 @@
-const { mongoose } = require("mongoose");
-const { Order } = require("../../models");
+const { OrderService } = require("../../services");
 
 const getAllUserOrders = async (req, res) => {
-	const { email } = req.body;
-
-	const orders = await Order.findOne({ email });
-
-	const [order] = orders;
+	const orders = await OrderService.getAllOrders(req.body);
 
 	res.json({
 		code: 200,
 		status: "Success",
 		data: {
-			result: order.cart,
+			result: orders,
 		},
 	});
 };

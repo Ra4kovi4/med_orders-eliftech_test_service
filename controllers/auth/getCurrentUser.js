@@ -1,19 +1,9 @@
-const { User } = require("../../models");
-const { HttpError } = require("../../helpers");
+const { AuthService } = require("../../services");
 
 const getCurrentUser = async (req, res) => {
 	const { _id: userId } = req.user;
 
-	const currentUser = await User.findById(userId, {
-		_id: 1,
-		name: 1,
-		email: 1,
-		token: 1,
-	});
-
-	if (!currentUser) {
-		throw HttpError(400, "User not found");
-	}
+	const currentUser = await AuthService.findUserById(userId);
 
 	res.json({
 		code: 200,
