@@ -31,8 +31,9 @@ const orderSchema = new Schema(
 			{
 				list: [
 					{
-						imgUrl: {
+						imageUrl: {
 							type: String,
+							required: true,
 						},
 						title: {
 							type: String,
@@ -66,7 +67,7 @@ orderSchema.post("save", handleMongooseError);
 const Order = model("Order", orderSchema);
 
 const orderCartItemSchema = Joi.object({
-	imgUrl: Joi.string(),
+	imageUrl: Joi.string().required(),
 	title: Joi.string().required().min(2),
 	price: Joi.number().required().min(0.01),
 	quantity: Joi.number().required().default(1),

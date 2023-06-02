@@ -2,19 +2,17 @@ const { Order } = require("../../models");
 const { HttpError } = require("../../helpers");
 
 const getAllOrders = async (data) => {
-	const { email, phone } = data;
-
+	const { query } = data;
 	const orders = await Order.findOne({
 		$or: [
 			{
-				email: email,
+				email: query,
 			},
 			{
-				phone: phone,
+				phone: query,
 			},
 		],
 	});
-
 	if (!orders) {
 		throw HttpError(404, "Not Found");
 	}

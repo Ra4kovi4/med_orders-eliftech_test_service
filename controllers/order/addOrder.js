@@ -2,6 +2,7 @@ const { OrderService } = require("../../services");
 
 const addOrder = async (req, res) => {
 	const { name, email, phone, address, dishes, totalPrice } = req.body;
+
 	let user = await OrderService.findOrder(email);
 
 	if (!user) {
