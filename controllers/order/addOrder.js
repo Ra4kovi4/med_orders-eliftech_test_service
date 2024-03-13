@@ -1,7 +1,7 @@
 const { OrderService } = require("../../services");
 
 const addOrder = async (req, res) => {
-	const { name, email, phone, address, dishes, totalPrice } = req.body;
+	const { name, email, phone, address, medicates, totalPrice } = req.body;
 
 	let user = await OrderService.findOrder(email);
 
@@ -11,11 +11,11 @@ const addOrder = async (req, res) => {
 			email,
 			phone,
 			address,
-			dishes,
+			medicates,
 			totalPrice
 		);
 	} else {
-		user.cart.push({ list: [...dishes], totalPrice });
+		user.cart.push({ list: [...medicates], totalPrice });
 	}
 	await user.save();
 

@@ -1,8 +1,8 @@
-const shopRouter = require("./shop");
+const pharmRouter = require("./pharm");
 const orderRouter = require("./order");
 const authRouter = require("./auth");
 module.exports = {
-	shopRouter,
+	pharmRouter,
 	orderRouter,
 	authRouter,
 };

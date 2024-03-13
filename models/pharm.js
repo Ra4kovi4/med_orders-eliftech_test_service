@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 
-const dishSchema = new Schema({
+const medSchema = new Schema({
 	imgUrl: {
 		type: String,
 	},
@@ -10,12 +10,7 @@ const dishSchema = new Schema({
 		required: true,
 		minlength: 2,
 	},
-	description: {
-		type: String,
-		minlength: 2,
-		maxlength: 50,
-		required: true,
-	},
+	
 	price: {
 		type: Number,
 		required: true,
@@ -23,7 +18,7 @@ const dishSchema = new Schema({
 	},
 });
 
-const shopSchema = new Schema({
+const pharmSchema = new Schema({
 	name: {
 		type: String,
 		required: true,
@@ -32,11 +27,15 @@ const shopSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	dishes: [dishSchema],
+	medicate: [ medSchema ],
+	position: {
+        lat: { type: Number, required: true }, 
+        lng: { type: Number, required: true }
+    }
 });
 
-shopSchema.post("save", handleMongooseError);
+pharmSchema.post("save", handleMongooseError);
 
-const Shop = model("Shop", shopSchema);
+const Pharm = model("Pharm", pharmSchema);
 
-module.exports = Shop;
+module.exports = Pharm;

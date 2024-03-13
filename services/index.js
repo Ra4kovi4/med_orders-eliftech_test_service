@@ -1,8 +1,8 @@
 const OrderService = require("./orderService");
-const ShopService = require("./shopService");
+const PharmService = require("./pharmService");
 const AuthService = require("./authService");
 module.exports = {
 	OrderService,
-	ShopService,
+	PharmService,
 	AuthService,
 };

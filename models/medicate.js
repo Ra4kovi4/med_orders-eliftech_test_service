@@ -2,7 +2,7 @@ const Joi = require("joi");
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 
-const dishSchema = new Schema(
+const medicateSchema = new Schema(
 	{
 		imgUrl: {
 			type: String,
@@ -13,23 +13,16 @@ const dishSchema = new Schema(
 			required: true,
 			minlength: 2,
 		},
-
-		descr: {
-			type: String,
-			minlength: 2,
-			maxlength: 50,
-			required: true,
-		},
 		price: {
 			type: Number,
 			required: true,
 			min: 0.01,
 		},
-		shopId: { type: Number, required: true },
+		pharmId: { type: Number, required: true },
 	},
 	{ versionKey: false, timestamps: true }
 );
-dishSchema.post("save", handleMongooseError);
-const Dish = model("Dish", dishSchema);
+medicateSchema.post("save", handleMongooseError);
+const Medicate = model("Dish", medicateSchema);
 
-module.exports = Dish;
+module.exports = Medicate;

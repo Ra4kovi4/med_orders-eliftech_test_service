@@ -1,5 +1,5 @@
 const order = require("./order");
 const auth = require("./auth");
-const shops = require("./shops");
+const pharm = require("./pharm");
 
-module.exports = { auth, order, shops };
+module.exports = { auth, order, pharm };

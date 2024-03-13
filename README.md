@@ -1,10 +1,10 @@
 # eliftech_delivery-service-backend
 App Delivery Backend
-This repository contains the back-end for the App Delivery service. It provides APIs to manage shops and orders.
+This repository contains the back-end for the App Delivery service. It provides APIs to manage pharmacies and orders.
 
 After Node.js is installed, clone this repository to your local machine:
 
-(https://github.com/Ra4kovi4/eliftech_delivery-service-backend.git)
+(https://github.com/Ra4kovi4/med_orders-eliftech_test_service.git)
 Navigate to the project directory:
 
 cd app-delivery-backend
@@ -42,6 +42,6 @@ orders:
 POST /api/orders: Add a new order
 GET /api/orders: Fetch all user's orders 
 
-shops:
-GET /api/orders: Fetch all shops with menu
-GET /api/orders:id:  Fetch one shop by id with menu
+pharmacies:
+GET /api/orders: Fetch all pharmacies with medication list
+GET /api/orders:id:  Fetch one pharmacies by id with medication list
